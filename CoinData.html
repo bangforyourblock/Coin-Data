@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="cssConfig" type="text/css" href="cssConfig.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['table'] });
+        google.charts.setOnLoadCallback(drawTable);
+
+
+        
+
+        function getData() {
+                var jsonData = $.ajax({
+                    url: "https://api.coinmarketcap.com/v1/ticker/?limit=100",
+                    dataType: "json",
+                    async: false
+                }).responseText;
+
+                // console.log(jsonData);
+
+                return JSON.parse(jsonData)
+            }
+
+            var dataArray = getData();
+
+
+
+        function drawTable() {
+            var data = new google.visualization.DataTable();
+            var chart_one = new google.visualization.DataTable();
+            var chart_two = new google.visualization.DataTable();
+            var chart_three = new google.visualization.DataTable();
+            var chart_four = new google.visualization.DataTable();
+            data.addColumn('number', 'Position');
+            data.addColumn('string', 'Name');
+            data.addColumn('string', 'Price USD');
+            data.addColumn('string', 'Market Cap');
+            chart_one.addColumn('number', 'Position');
+            chart_one.addColumn('string', 'Name');
+            chart_one.addColumn('string', 'Price USD');
+            chart_one.addColumn('string', 'Market Cap');
+            chart_two.addColumn('number', 'Position');
+            chart_two.addColumn('string', 'Name');
+            chart_two.addColumn('string', 'Price USD');
+            chart_two.addColumn('string', 'Market Cap');
+            chart_three.addColumn('number', 'Position');
+            chart_three.addColumn('string', 'Name');
+            chart_three.addColumn('string', 'Price USD');
+            chart_three.addColumn('string', 'Market Cap');
+            chart_four.addColumn('number', 'Position');
+            chart_four.addColumn('string', 'Name');
+            chart_four.addColumn('string', 'Price USD');
+            chart_four.addColumn('string', 'Market Cap');
+
+            for(i=0;i<100;i++){
+
+                switch(dataArray[i].id){
+
+                    case "bitcoin":
+                    chart_one.addRows([[i + 1, dataArray[i].name, "$" + dataArray[i].price_usd, "$" + dataArray[i].market_cap_usd]]);      
+                    break;
+
+                    case "ethereum":
+                    chart_two.addRows([ [i + 1, dataArray[i].name, "$" + dataArray[i].price_usd, "$" + dataArray[i].market_cap_usd]]);
+                    break;
+
+                    case "litecoin":
+                    chart_one.addRows([[i + 1, dataArray[i].name, "$" + dataArray[i].price_usd, "$" + dataArray[i].market_cap_usd]]);
+                    break;
+
+                    case "cardano":
+                    chart_three.addRows([[i + 1, dataArray[i].name, "$" + dataArray[i].price_usd, "$" + dataArray[i].market_cap_usd]]);
+                    break;
+
+                    case "dogecoin":
+                    chart_four.addRows([[i + 1, dataArray[i].name, "$" + dataArray[i].price_usd, "$" + dataArray[i].market_cap_usd]]);
+                    break;
+
+                    case "ripple":
+                    chart_four.addRows([[i + 1, dataArray[i].name, "$" + dataArray[i].price_usd, "$" + dataArray[i].market_cap_usd]]);
+                    break;
+
+                    case "bitcoin-cash":
+                    chart_four.addRows([[i + 1, dataArray[i].name, "$" + dataArray[i].price_usd, "$" + dataArray[i].market_cap_usd]]);
+                    break;
+
+                    case "stellar":
+                    chart_three.addRows([[i + 1, dataArray[i].name, "$" + dataArray[i].price_usd, "$" + dataArray[i].market_cap_usd]]);
+                    break;
+
+                    case "neo":
+                    chart_two.addRows([[i + 1, dataArray[i].name, "$" + dataArray[i].price_usd, "$" + dataArray[i].market_cap_usd]]);
+                    break;
+
+                    case "eos":
+                    chart_two.addRows([[i + 1, dataArray[i].name, "$" + dataArray[i].price_usd, "$" + dataArray[i].market_cap_usd]]);
+                    break;
+
+                    case "nem":
+                    chart_two.addRows([[i + 1, dataArray[i].name, "$" + dataArray[i].price_usd, "$" + dataArray[i].market_cap_usd]]);
+                    break;
+
+                    case "substratum":
+                    chart_three.addRows([[i + 1, dataArray[i].name, "$" + dataArray[i].price_usd, "$" + dataArray[i].market_cap_usd]]);
+                    break;
+                    
+
+
+
+                }
+                data.addRows([
+                    [i+1,dataArray[i].id, "$"+dataArray[i].price_usd, "$"+ dataArray[i].market_cap_usd]
+                ]);
+            }
+
+
+            var table = new google.visualization.Table(document.getElementById('table_div'));
+            var tableOne = new google.visualization.Table(document.getElementById('chartOne'));
+            var tableTwo = new google.visualization.Table(document.getElementById('chartTwo'));
+            var tableThree = new google.visualization.Table(document.getElementById('chartThree'));
+            var tableFour = new google.visualization.Table(document.getElementById('chartFour'));
+
+            //table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
+            tableOne.draw(chart_one, { showRowNumber: true, width: '100%', height: '100%' });
+            tableTwo.draw(chart_two, { showRowNumber: true, width: '100%', height: '100%' });
+            tableThree.draw(chart_three, { showRowNumber: true, width: '100%', height: '100%' });
+            tableFour.draw(chart_four, { showRowNumber: true, width: '100%', height: '100%' });
+        }
+
+
+        
+
+
+
+    </script>
+</head>
+
+<body>
+    <div id="table_div"></div>
+    <div id="chartOne"></div>
+    <div id="chartTwo"></div>
+    <div id="chartThree"></div>
+    <div id="chartFour"></div>
+    <div id="newPage">
+        <form>
+            <input type="button" value="Donation Miner!" onclick="window.location.href='coinMiner.html'"
+            />
+        </form>
+    </div>
+</body>
+
+</html>
